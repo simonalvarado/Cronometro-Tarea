@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Simple setInterval clock</title>
+    <style>
+      p {
+        font-family: sans-serif;
+        margin-left: 160px;
+      }
+      button {
+        width: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="clock"></p>
+
+    <div>
+      <button class="iniciar">Iniciar</button>
+      <button class="detener">Detener</button>
+      <button class="reiniciar">Reiniciar</button>
+    </div>
+
+    <script>
+      let botonInicio = document.querySelector('.iniciar');
+      let botonDetener = document.querySelector('.detener');
+      let botonReiniciar = document.querySelector('.reiniciar');
+
+      let c = 0;
+      let startTime;
+      let stopTime;
+      let segundos;
+      let minutos = 0;
+      let horas = 0;
+      let NSegundos;
+      let NMinutos;
+      let NHoras;
+      let createContador;
+      let d = 0;
+      let secondCount = 0;
+
+      function contador() {
+        c++;
+        document.querySelector('.clock').textContent = c;
+      };
+
+      function contador2() {
+        segundos = Math.floor(secondCount % 60);
+        minutos = Math.floor((secondCount % 3600)/60);
+        horas = Math.floor(secondCount/3600);
+
+        NHoras = (horas < 10) ? '0' + horas : horas;
+        NMinutos = (minutos <10) ? '0' + minutos : minutos;
+        NSegundos = (segundos < 10) ? '0' + segundos : segundos;
+
+        document.querySelector('.clock').textContent = NHoras + ':' + NMinutos + ':' + NSegundos;
+        
+        secondCount++;
+      }
+
+      function displayTime() {
+        let date = new Date();
+        let time = date.toLocaleTimeString();
+      }
+
+      botonInicio.addEventListener('click', () => {
+        createContador = setInterval(contador2, 1000);
+        botonInicio.disabled = true;
+      });
+
+      botonDetener.addEventListener('click', () => {
+        stopTime = Date.now();
+        clearInterval(createContador);
+        botonInicio.disabled = false;
+      });
+
+      botonReiniciar.addEventListener('click', () => {
+        clearInterval(createContador);
+        secondCount = 0;
+        botonInicio.disabled = false;
+        contador2();
+      });
+
+      contador2();
+
+    </script>
+  </body>
+</html>
